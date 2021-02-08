@@ -1,0 +1,69 @@
+<h2>{{title}}</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="mat-elevation-z8">
+
+  <div class="row">
+    <mat-form-field>
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome">
+      <mat-error *ngIf="form.get('nome')?.errors?.required">Campo obrigatório</mat-error>
+      <mat-error *ngIf="form.get('nome')?.errors?.minlength">Tamanho mínimo de 3 caracteres</mat-error>
+      <mat-error *ngIf="form.get('nome')?.errors?.maxlength">Tamanho máximo de 200 caracteres</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field>
+      <mat-label>Data de nascimento</mat-label>
+      <input matInput [matDatepicker]="datePicker" formControlName="dataNascimento">
+      <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+      <mat-datepicker #datePicker></mat-datepicker>
+      <mat-error *ngIf="form.get('dataNascimento')?.errors?.required">Campo obrigatório</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email">
+      <mat-error *ngIf="form.get('email')?.errors?.required">Campo obrigatório</mat-error>
+      <mat-error *ngIf="form.get('email')?.errors?.email">O valor digitado não é um email</mat-error>
+      <mat-error *ngIf="form.get('email')?.errors?.maxlength">Tamanho máximo de 100 caracteres</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field>
+      <mat-label>Senha</mat-label>
+      <input matInput formControlName="senha" type="password">
+      <mat-error *ngIf="form.get('password')?.errors?.required">Campo obrigatório</mat-error>
+      <mat-error *ngIf="form.get('email')?.errors?.maxlength">Tamanho máximo de 30 caracteres</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field>
+      <mat-label>Sexo</mat-label>
+      <mat-select formControlName="sexoId">
+        <mat-option *ngFor="let sexo of sexos" [value]="sexo.id">{{sexo.descricao}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('sexoId')?.errors?.required">Campo obrigatório</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="row" *ngIf="id">
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="ativo">
+        <mat-option [value]="true">Ativo</mat-option>
+        <mat-option [value]="false">Inativo</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('ativo')?.errors?.required">Campo obrigatório</mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="row buttons">
+    <button mat-flat-button color="warn" type="button" *ngIf="id" (click)="delete()">Excluir</button>
+    <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Salvar</button>
+  </div>
+</form>

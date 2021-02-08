@@ -1,0 +1,76 @@
+<h2>Listagem de usuários</h2>
+
+<br />
+
+<a mat-raised-button color="primary" [routerLink]="['cadastrar']">Cadastrar</a>
+
+<br />
+<br />
+<br />
+
+<form [formGroup]="formFilters" (ngSubmit)="filtrar()">
+  <mat-form-field>
+    <mat-label>Filtrar por nome</mat-label>
+    <input matInput formControlName="nome">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Filtrar por status</mat-label>
+    <mat-select formControlName="ativo">
+      <mat-option value="">Todos</mat-option>
+      <mat-option value="true">Ativo</mat-option>
+      <mat-option value="false">Inativo</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-stroked-button type="submit">Filtrar</button>
+</form>
+
+<table mat-table [dataSource]="items" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="nome">
+    <th mat-header-cell *matHeaderCellDef>Nome</th>
+    <td mat-cell *matCellDef="let element">{{element.nome}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="dataNascimento">
+    <th mat-header-cell *matHeaderCellDef>Data de nascimento</th>
+    <td mat-cell *matCellDef="let element">{{element.dataNascimento | date: 'dd/MM/yyyy'}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef>Email</th>
+    <td mat-cell *matCellDef="let element">{{element.email}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="sexo">
+    <th mat-header-cell *matHeaderCellDef>Sexo</th>
+    <td mat-cell *matCellDef="let element">{{element.sexo.descricao}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="ativo">
+    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <td mat-cell *matCellDef="let element">
+      <mat-select [value]="element.ativo.toString()" (selectionChange)="updateStatus(element.id, $event.value)">
+        <mat-option value="true">Ativo</mat-option>
+        <mat-option value="false">Inativo</mat-option>
+      </mat-select>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="acoes">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let element">
+      <a mat-icon-button aria-label="Editar" [routerLink]="['editar', element.id]">
+        <mat-icon>edit</mat-icon>
+      </a>
+
+      <button mat-icon-button aria-label="Excluir" (click)="delete(element.id, element.nome)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
