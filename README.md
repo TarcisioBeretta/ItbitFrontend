@@ -1,3 +1,7 @@
+# Instruções
+
+O backend dessa aplicação está disponível em https://github.com/TarcisioBeretta/ItbitBackend e precisa estar rodando em http://localhost:5000
+
 # Itbit
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.2.
